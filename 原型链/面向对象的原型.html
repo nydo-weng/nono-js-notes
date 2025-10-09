@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box1">
+      <h1></h1>
+      <ul></ul>
+    </div>
+
+    <div class="box2">
+      <h1></h1>
+      <ul></ul>
+    </div>
+
+    <div class="pox1">
+      <h1></h1>
+      <ul></ul>
+    </div>
+
+    <div class="pox2">
+      <h1></h1>
+      <ul></ul>
+    </div>
+    <script>
+      // 模拟后端给的数据
+      const data1 = {
+        title: '体育',
+        list: ['体育-1', '体育-2', '体育-3'],
+      };
+
+      const data2 = {
+        title: '综艺',
+        list: ['综艺-1', '综艺-2', '综艺-3'],
+      };
+
+      // 构造函数
+      function CreateList(select, data) {
+        this.ele = document.querySelector(select);
+        this.title = data.title;
+        this.list = data.list;
+
+        this.render = function () {
+          // 渲染页面
+          const h1 = this.ele.querySelector('h1');
+          const ul = this.ele.querySelector('ul');
+
+          h1.innerHTML = this.title;
+          // console.log(ul);
+          ul.innerHTML = this.list.map((item) => `<li>${item}</li>`).join('');
+        };
+      }
+
+      let obj1 = new CreateList('.box1', data1);
+      let obj2 = new CreateList('.box2', data2);
+
+      console.log(obj1);
+      obj1.render();
+      // console.log(obj2);
+      obj2.render();
+
+      // 此时, obj1.render() 和 obj2.render() 是两个独立的存在堆内存中的方法
+      console.log(obj1.render === obj2.render); // ---> false
+      // 所以这样做, 每一个实例的堆内存都多了一份函数副本, 浪费内存
+
+      // 如何解决? 使用原型
+      CreateList.prototype.prender = function () {
+        // 渲染页面
+        const h1 = this.ele.querySelector('h1');
+        const ul = this.ele.querySelector('ul');
+
+        h1.innerHTML = this.title;
+        // console.log(ul);
+        ul.innerHTML = this.list.map((item) => `<li>${item}</li>`).join('');
+      };
+
+      let objp1 = new CreateList('.pox1', data1);
+      let objp2 = new CreateList('.pox2', data2);
+
+      console.log(objp1);
+      objp1.prender();
+      objp2.prender();
+      // 效果与之前 完全一样, 并且 .prender() 是同一份
+      console.log(objp1.prender === objp2.prender); // ---> true
+      // objp1 上没有 prender(), 往上找一级找到原型上的 prender() 方法
+
+      // 对象.__proto__ === 构造函数.prototype
+      // __xx__ 意思是私密的
+      console.log(obj1.__proto__);
+      // 这个里面有 prender, 有一个 constructor 构造函数
+      console.log(CreateList.prototype);
+      console.log(CreateList.prototype === obj1.__proto__); // ---> true
+
+      // 因此, 在写方法的时候, 是写在 CreateList.prototype.XXX 的,
+      // 所有 实例化的对象的 obj1.XXX 时, 虽然 obj1 确实没有 .XXX, 但是会沿着 .__proto__ 找到 构造函数上的 .prototype 里有没有 .XXX, 如果没有继续往上找, 到头没找到就报错
+
+      // 拓展, 原型链概念
+      console.log(obj1.toString());
+      // 现在obj1 上找, 没有找到, 在 obj1.__proto__ (也就是 CreateList.prototype) 上找, 没有找到, 到 obj1.__proto__.__proto__ (也就是 Object.prototype)上找, 直到 xxx.__proto__ === null, 报错 Object.pro
+    </script>
+  </body>
+</html>

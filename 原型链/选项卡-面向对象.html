@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function CreateObj(name) {
+        this.name = name;
+      }
+
+      CreateObj.prototype.getName = function () {
+        console.log('11111', this.name);
+      };
+
+      const obj1 = new CreateObj('nono');
+      obj1.getName();
+
+      // 这一步相当于, 在 obj1 自己的身上挂了一个 .getName(), 所以不会影响 obj2.getName(),
+      // obj2 自己身上没有 .getName(), 调用的仍然是原型链上的
+      obj1.getName = function () {
+        console.log(222);
+      };
+
+      const obj2 = new CreateObj('nydo');
+      obj2.getName();
+
+      // 这里已经不等于了, 因为 obj1 的 .getName 是在自己身上挂的 而不是在原型链上找的
+      console.log(obj1.getName === obj2.getName); // ---> false
+      obj1.getName();
+
+      // 这样做一定会覆盖, 现在 obj2.getName() 肯定是 3333 了, 但是 obj1 应该还是 222, 因为他调用的仍然是自己的
+      CreateObj.prototype.getName = function () {
+        console.log(3333);
+      };
+      obj1.getName();
+      obj2.getName();
+    </script>
+  </body>
+</html>

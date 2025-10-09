@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 给了一个默认 type, 如果构造的时候, 没有给参数, 就是 unknow type
+      function Animal(type = 'unknow type') {
+        this.type = type;
+      }
+      Animal.prototype.getType = function () {
+        console.log(this.type);
+      };
+      const myA = new Animal('walk');
+      myA.getType();
+
+      function Dog() {}
+      // 这里就可以展现原型链的继承, 当我这样写之后, 所有的新建的 Dog 实例, 都有 this.type === "walk"
+      Dog.prototype = new Animal('walk');
+      const myDog = new Dog();
+      myDog.getType();
+      console.log(myDog.type);
+      // 现在这个.type, 是在 myDog 上的, 还是通过原型链找的?
+      // 我认识是在 myDog 上的, 因为 Dog.prototype = new Animal('walk') 在我的理解中
+      // 是 构建一个 参数为 walk 的 Animal 对象, 作为 Dog 这个类的原型, 而这个 Animal 对象, 有 this.type 这个属性
+      // 也就是说 Dog 这个类的原型, 有 this.type 这个属性, 当构建 myDog 实例时, 它也会拥有自己的 this.type
+
+      // ❌, 这个 type 不是 myDog 自己的属性, 而是 Dog.prototype 的属性, 也就是说通过原型链查找的
+      // ✅ -> 原型链不只是用来查找方法的, 还可以用来查找属性
+      const dog1 = new Dog();
+      const dog2 = new Dog();
+      console.log(dog1.type === dog2.type); // ---> true
+      // ^ 的结果是 true 也证明了这是原型上的属性
+      console.log(dog1.type === Dog.prototype.type); // ---> true
+      // ^ 这个也是 true 更加证明
+
+      dog1.type = 'dog1';
+      dog1.getType(); // dog1
+      dog2.getType(); // walk
+      // 这里也说明给实例修改属性不会修改其他实例, 和方法一样, 会给实例挂载一个属于自己的 type, 这样就不需要去原型链上找原型的属性
+    </script>
+  </body>
+</html>

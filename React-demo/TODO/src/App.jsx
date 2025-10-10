@@ -23,6 +23,7 @@ const DATA = [
 
 function App() {
   const [todos, setTodos] = useState(DATA);
+  const [titleInput, setTitleInput] = useState('');
 
   const checkTodo = (id) => {
     setTodos(
@@ -36,10 +37,34 @@ function App() {
     );
   };
 
+  const addTodo = ({ title }) => {
+    setTodos([...todos, { id: todos.length + 1, title, completed: false }]);
+  };
+
   return (
     <div className="appContainer">
       <div className="topContainer">
-        <h1>Todo List</h1>
+        <div className="headerFilterContainer">
+          <h1>Todo List</h1>
+          <div className="filterContainer">
+            <label htmlFor="filter">Filter: </label>
+            <select id="filter">
+              <option value="all">All</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="addContainer">
+          <input
+            value={titleInput}
+            onChange={(e) => setTitleInput(e.target.value)}
+            type="text"
+            placeholder=" Add a new todo"
+          />
+          <button onClick={() => addTodo({ title: titleInput })}>Add</button>
+        </div>
       </div>
       <ul className="todoContainer">
         {todos.map((todo) => (

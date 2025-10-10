@@ -13,10 +13,37 @@ ul {
 .topContainer {
   background-color: palegreen;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerFilterContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .todoContainer {
   background-color: paleturquoise;
   flex-grow: 1; /* 填满父元素剩余空间 */
   overflow: auto;
+}
+
+.addContainer {
+  display: flex;
+  align-items: center;
+  /* background-color: pink; */
+  flex-grow: 1;
+  padding: 0 5px;
+}
+
+.addContainer input {
+  flex-grow: 1;
+  height: 75%;
+}
+
+.addContainer button {
+  width: 60px;
+  height: 55%;
+  margin-left: 5px;
 }

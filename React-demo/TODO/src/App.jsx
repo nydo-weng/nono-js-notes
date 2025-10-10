@@ -25,6 +25,14 @@ function App() {
   const [todos, setTodos] = useState(DATA);
   const [titleInput, setTitleInput] = useState('');
 
+  const [filter, setFilter] = useState('all');
+
+  const filterd = todos.filter((todo) => {
+    if (filter === 'all') return true;
+    if (filter === 'ongoing') return !todo.completed;
+    if (filter === 'completed') return todo.completed;
+  });
+
   const checkTodo = (id) => {
     setTodos(
       todos.map((todo) => {
@@ -39,6 +47,7 @@ function App() {
 
   const addTodo = ({ title }) => {
     setTodos([...todos, { id: todos.length + 1, title, completed: false }]);
+    setTitleInput('');
   };
 
   return (
@@ -48,7 +57,7 @@ function App() {
           <h1>Todo List</h1>
           <div className="filterContainer">
             <label htmlFor="filter">Filter: </label>
-            <select id="filter">
+            <select id="filter" onChange={(e) => setFilter(e.target.value)}>
               <option value="all">All</option>
               <option value="ongoing">Ongoing</option>
               <option value="completed">Completed</option>
@@ -67,7 +76,7 @@ function App() {
         </div>
       </div>
       <ul className="todoContainer">
-        {todos.map((todo) => (
+        {filterd.map((todo) => (
           <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} />
         ))}
       </ul>

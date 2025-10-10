@@ -55,6 +55,8 @@ export default defineConfig([
       'prettier/prettier': ['error'], // ✅ 将 Prettier 风格错误标记为 ESLint 错误
       // 禁用 React 17+ 不再需要 import React 的规则
       'react/react-in-jsx-scope': 'off',
+
+      'react/prop-types': 'off', // 关闭 prop-types 检查
     },
 
     settings: {

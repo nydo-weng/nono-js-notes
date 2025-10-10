@@ -1,4 +1,22 @@
 ul {
-  list-style: disc;
-  padding-left: 40px;
+  list-style: none;
+}
+
+.appContainer {
+  padding: 20px;
+  height: 100vh;
+  background-color: #ffc;
+  display: flex;
+  flex-direction: column;
+}
+
+.topContainer {
+  background-color: palegreen;
+  height: 100px;
+}
+
+.todoContainer {
+  background-color: paleturquoise;
+  flex-grow: 1; /* 填满父元素剩余空间 */
+  overflow: auto;
 }

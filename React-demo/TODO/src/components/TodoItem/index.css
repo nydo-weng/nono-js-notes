@@ -1,0 +1,19 @@
+.itemCard {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  background-color: pink;
+  height: 50px;
+  border: 1px solid black;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.itemCard input {
+  margin: 0 10px;
+  height: 30px;
+  width: 30px;
+}
+
+.itemCard span {
+  font-size: 25px;
+}

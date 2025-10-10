@@ -1,4 +1,5 @@
 import './App.css';
+import TodoItem from './components/TodoItem';
 
 // 模拟数据库
 const DATA = [
@@ -20,16 +21,19 @@ const DATA = [
 ];
 
 function App() {
-  // todo MVP, 能够渲染数据库内的所有 todo 项
+  // 下一步, 抽出一个 Todo 组件, 用于渲染每个 todo 项
 
   return (
-    <>
-      <ul>
-        {DATA.map((todo) => {
-          return <li key={todo.id}>{todo.title}</li>;
-        })}
+    <div className="appContainer">
+      <div className="topContainer">
+        <h1>Todo List</h1>
+      </div>
+      <ul className="todoContainer">
+        {DATA.map((todo) => (
+          <TodoItem todo={todo} key={todo.id} />
+        ))}
       </ul>
-    </>
+    </div>
   );
 }
 

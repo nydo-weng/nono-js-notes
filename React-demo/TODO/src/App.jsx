@@ -50,6 +50,12 @@ function App() {
     setTitleInput('');
   };
 
+  const deleteTodo = (id) => {
+    const ok = window.confirm('are you sure you want to delete this todo?');
+    if (!ok) return;
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div className="appContainer">
       <div className="topContainer">
@@ -77,7 +83,7 @@ function App() {
       </div>
       <ul className="todoContainer">
         {filterd.map((todo) => (
-          <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} />
+          <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} deleteTodo={deleteTodo} />
         ))}
       </ul>
     </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import TodoItem from './components/TodoItem';
 
@@ -21,7 +22,19 @@ const DATA = [
 ];
 
 function App() {
-  // 下一步, 抽出一个 Todo 组件, 用于渲染每个 todo 项
+  const [todos, setTodos] = useState(DATA);
+
+  const checkTodo = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, completed: !todo.completed };
+        } else {
+          return todo;
+        }
+      }),
+    );
+  };
 
   return (
     <div className="appContainer">
@@ -29,8 +42,8 @@ function App() {
         <h1>Todo List</h1>
       </div>
       <ul className="todoContainer">
-        {DATA.map((todo) => (
-          <TodoItem todo={todo} key={todo.id} />
+        {todos.map((todo) => (
+          <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} />
         ))}
       </ul>
     </div>

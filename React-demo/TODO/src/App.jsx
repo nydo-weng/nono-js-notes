@@ -1,28 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import TodoItem from './components/TodoItem';
 
-// 模拟数据库
-const DATA = [
-  {
-    id: 1,
-    title: 'todo1',
-    completed: false,
-  },
-  {
-    id: 2,
-    title: 'todo2',
-    completed: true,
-  },
-  {
-    id: 3,
-    title: 'todo3',
-    completed: false,
-  },
-];
-
 function App() {
-  const [todos, setTodos] = useState(DATA);
+  const [todos, setTodos] = useState([]);
+  // 每次重新加载页面时, 从服务器获取 todos 列表, 并更新 jsonTodos 状态
+  useEffect(() => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:3001/DATA');
+    xhr.addEventListener('loadend', () => {
+      const data = JSON.parse(xhr.responseText);
+      setTodos(data);
+      console.log(data);
+    });
+    xhr.send();
+  }, []);
+
   const [titleInput, setTitleInput] = useState('');
 
   const [filter, setFilter] = useState('all');
@@ -46,6 +39,7 @@ function App() {
   };
 
   const addTodo = ({ title }) => {
+    console.log(todos.length + 1);
     setTodos([...todos, { id: todos.length + 1, title, completed: false }]);
     setTitleInput('');
   };
@@ -81,6 +75,7 @@ function App() {
           <button onClick={() => addTodo({ title: titleInput })}>Add</button>
         </div>
       </div>
+
       <ul className="todoContainer">
         {filterd.map((todo) => (
           <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} deleteTodo={deleteTodo} />

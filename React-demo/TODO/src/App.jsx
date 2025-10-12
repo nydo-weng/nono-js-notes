@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import TodoItem from './components/TodoItem';
 
 function App() {
@@ -51,36 +50,54 @@ function App() {
   };
 
   return (
-    <div className="appContainer">
-      <div className="topContainer">
-        <div className="headerFilterContainer">
-          <h1>Todo List</h1>
-          <div className="filterContainer">
-            <label htmlFor="filter">Filter: </label>
-            <select id="filter" onChange={(e) => setFilter(e.target.value)}>
-              <option value="all">All</option>
-              <option value="ongoing">Ongoing</option>
-              <option value="completed">Completed</option>
-            </select>
+    <div className="screen-container w-screen h-screen bg-gray-200 flex flex-col items-center">
+      {/* flex-1: 让当前元素占据父容器剩余空间, container: tailwind 内置的响应式容器类, mx-auto: 水平居中, px-4: 左右内边距, py-6: 上下内边距  */}
+      <div className="app-container  bg-cyan-50 flex-1 flex flex-col container mx-auto px-4 py-6 overflow-hidden">
+        {/* 这里设置 overflow hidden 可以在不设置子元素的圆角时, 防止圆角被裁剪 */}
+        <div className="top-container rounded-t-2xl overflow-hidden">
+          <div className="header-filter-container bg-green-100 flex flex-col items-center">
+            <div className="filter-container self-end space-x-2 p-2 bg-blue-50 rounded-md shadow-sm">
+              <label htmlFor="filter" className="text-gray-700 font-medium">
+                Filter:
+              </label>
+              <select
+                id="filter"
+                onChange={(e) => setFilter(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-1 bg-white text-gray-700
+               focus:outline-none focus:ring-2 focus:ring-blue-400
+               hover:bg-gray-50 transition duration-200"
+              >
+                <option value="all">All</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+            <h1 className="app-name text-4xl font-bold text-center">Todo List</h1>
+          </div>
+
+          <div className="add-container bg-green-100 flex  px-4 py-2 gap-4">
+            <input
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              type="text"
+              placeholder=" Add a new todo"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 bg-white"
+            />
+            <button
+              onClick={() => addTodo({ title: titleInput })}
+              className="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 transition duration-200"
+            >
+              Add
+            </button>
           </div>
         </div>
 
-        <div className="addContainer">
-          <input
-            value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
-            type="text"
-            placeholder=" Add a new todo"
-          />
-          <button onClick={() => addTodo({ title: titleInput })}>Add</button>
-        </div>
+        <ul className="todo-container rounded-b-2xl flex-1 bg-green-50 overflow-scroll">
+          {filterd.map((todo) => (
+            <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} deleteTodo={deleteTodo} />
+          ))}
+        </ul>
       </div>
-
-      <ul className="todoContainer">
-        {filterd.map((todo) => (
-          <TodoItem todo={todo} key={todo.id} checkTodo={checkTodo} deleteTodo={deleteTodo} />
-        ))}
-      </ul>
     </div>
   );
 }

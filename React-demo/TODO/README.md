@@ -12,6 +12,7 @@
 ## 10.12
 
 - 加上 json-server 模拟后端
+
   > 1. npm install -D json-server
   > 2. 在项目根目录创建 db.json
   > 3. 启动服务  
@@ -20,3 +21,10 @@
   >    先安装工具 npm install -D concurrently  
   >    修改 package.json:  
   >    "dev": "concurrently \\"vite\\" \\"json-server --watch db.json --port 3001\\""
+
+- 安装 tailwindcss 4
+  > 1. npm install tailwindcss @tailwindcss/vite
+  > 2. 在 vite 配置中,  
+  >    import tailwindcss from '@tailwindcss/vite'  
+  >    plugins: [tailwindcss(),]
+  > 3. 在 index.css 引入 @import "tailwindcss";

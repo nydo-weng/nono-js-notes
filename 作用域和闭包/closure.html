@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 这就是一个闭包
+    function outer() {
+      let a = 10;
+      function fn() {
+        console.log(a);
+      }
+      fn();
+    }
+    outer();
+
+    // 普通形式 统计函数调用的次数
+    let i = 0;
+    function fn() {
+      i++;
+      console.log(`函数被调用了${i}次`);
+    }
+    // ^ 这个不好, 因为 i 是全局变量, 任何方法都能修改它, 我们可以用闭包来解决这个问题
+
+    // 闭包形式, 统计函数调用的次数 (闭包最典型的应用, 实现数据私有化)
+    function count() {
+      let j = 0;
+      function fn() {
+        j++;
+        console.log(`函数被调用了${j}次`);
+      }
+      return fn;
+    }
+    const fun = count();
+
+  </script>
+  
+</body>
+</html>

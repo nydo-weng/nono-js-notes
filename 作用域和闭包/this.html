@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function test() {
+      console.log('this', this);
+    }
+
+    test();
+
+    test.call({ name: "nono"})
+    test.apply( {name: "nono"})
+
+    const boundTest = test.bind({name:"nono"})
+    boundTest();
+
+    console.log("====================")
+
+    class Person {
+      constructor(name, age) {
+        console.log('constructor 里的 this', this);
+        this.name = name;
+        this.age = age;
+      }
+      test() {
+        console.log('对象的方法里的 this', this)
+      }
+      asyncTest() {
+        console.log('this', this); // 这个指向 张三 实例对象
+
+
+        // setTimeout(function() {
+        //   console.log('setTimeout 回调中的 this', this);  // 这里指向 window 全局对象
+        //   console.log('setTimeout 回调中的 this.name', this.name);  // 这里指向 window 全局对象, 打不出 this.name
+        // }, 0)
+
+        // 换成箭头函数的写法, 箭头函数继承了 外部函数的 this 指向(上一级作用域的 this), 这里是 张三 实例对象
+        setTimeout(() => {
+          console.log('setTimeout 回调中的 this', this);  // 这里指向 张三 实例对象
+          console.log('setTimeout 回调中的 this.name', this.name);  // 这里能打出 张三
+        }, 0)
+      }
+    }
+
+    const zhangsan = new Person('张三', 20);
+    zhangsan.test();
+    zhangsan.asyncTest();
+
+      
+  </script>
+</body>
+</html>

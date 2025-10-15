@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function test(fn) {
+      const a = 1;
+      fn();
+    }
+
+    const a = 2;
+    function fn() {
+      console.log('a', a);
+    }
+
+    test(fn);
+    // 运行前预测, 因为在 fn() 中, a 有使用 但是未定义, 所以他是自由变量, 意味着它的指向实在运行时, 沿着作用域链进行查找. 在 test(fn) 的调用中, 会先查找 fn() 的函数作用域, 没找到继续查找 test() 函数作用域, 已经找到 a=1, 所以输出就是 a 1, 而不会继续找到全局作用域下的 a=2
+
+    // 预测错误, 强调! fn 的作用域链只由 定义位置的此法作用域决定, 而不是调用位置, 也就是说, 这里的 fn 的作用链就是 fn 函数作用域 -> 全局作用域, 所以这里当运行时, 就是查找 fn() 内部, 然后查找全局, 找到a=2
+  </script>
+</body>
+</html>

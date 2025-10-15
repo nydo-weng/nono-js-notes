@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function test() {
+      // const a = 1;
+      return function() {
+        console.log("a", a);
+      }
+    }
+    const fn1 = test();
+    fn1();
+    const a = 3;
+    const fn2 = test();
+    fn2();
+
+    // 这里 fn1() 会报错, 相当于 fn1() 在调用时, 也就是调用 test() 里的匿名函数, console.log(a) 去通过作用域链寻找变量a, 在匿名函数作用域内没找到, 往父作用域也就是 test() 函数作用域找, 也没找到, 沿着作用域链找到全局作用域, 因为 a 在 fn1() 之后定义, 所以也找不到, 就报错, fn2() 是一样的路径 不过调用在 a 定义之后, 所以找到全局作用域下的变量 a = 3, 可以打印 3
+  </script>
+  
+</body>
+</html>

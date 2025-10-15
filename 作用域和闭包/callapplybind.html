@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    var str = '你好'
+    var obj = {str: '这是 obj 对象内的 str'}
+    function fun(name, age) {
+      this.name = name;
+      this.age = age;
+      console.log(this, this.str);  // 相当于 window.str, 可以打印你好
+    }
+
+
+    // call 立即执行
+    fun.call( obj ); // {str: '这是 obj 对象内的 str'}, '这是 obj 对象内的 str''
+    // apply 立即执行
+    fun.apply( obj ); // {str: '这是 obj 对象内的 str'}, '这是 obj 对象内的 str''
+    // bind 不会立即执行, 因为他返回的是一个函数
+    fun.bind( obj ); 
+    console.log( fun.bind( obj ) ); // fun 函数
+    fun.bind( obj )(); 
+
+    fun.call(obj, '张三', 88);
+
+    fun.apply(obj, ['张三', 88]);
+
+    fun.bind(obj, '张三', 88, 99)();
+
+    // fun();
+  </script>
+</body>
+</html>
